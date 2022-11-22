@@ -70,7 +70,26 @@
 .summary {
   width: 30%;
 }
-
+.priceRow {
+  align-items: center;
+  padding-left: 1rem;
+}
+.discountPrice {
+  background-color: aquamarine;
+  border-radius: 3rem;
+  padding: 4px 10px 4px 10px;
+  text-align: center;
+  align-self: center;
+  margin-left: 0.5rem;
+}
+.price{
+  text-align: center;
+  align-self: center;
+  font-size:1rem;
+  margin-left:1rem;
+  justify-content:center;
+  padding-top: 0.7rem;
+}
 /* Media Queries */
 @media (max-width: 771px) {
   .filters {
