@@ -7,21 +7,17 @@ const SingleProduct = ({ prod }) => {
     state: { cart },
     dispatch,
   } = CartState();
-
+console.log("proddss",prod)
   return (
     <div className="products">
       <Card>
-        <Card.Img variant="top" src={prod.image} alt={prod.name} />
+        <Card.Img variant="top" src={prod?.thumbnail} className="productImage" alt={prod.name} />
         <Card.Body>
-          <Card.Title>{prod.name}</Card.Title>
+          <Card.Title>{prod?.title}</Card.Title>
           <Card.Subtitle style={{ paddingBottom: 10 }}>
-            <span>₹ {prod.price.split(".")[0]}</span>
-            {prod.fastDelivery ? (
-              <div>Fast Delivery</div>
-            ) : (
-              <div>4 days delivery</div>
-            )}
-            <Rating rating={prod.ratings} />
+            <span>₹ {prod?.price}</span>
+            
+            <Rating rating={Math.floor(prod.rating)} />
           </Card.Subtitle>
           {cart.some((p) => p.id === prod.id) ? (
             <Button
@@ -43,9 +39,9 @@ const SingleProduct = ({ prod }) => {
                   payload: prod,
                 })
               }
-              disabled={!prod.inStock}
+              disabled={prod.stock==0}
             >
-              {!prod.inStock ? "Out of Stock" : "Add to Cart"}
+              {prod.stock ==0 ? "Out of Stock" : "Add to Cart"}
             </Button>
           )}
         </Card.Body>
