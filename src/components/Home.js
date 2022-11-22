@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { CartState } from "../context/Context";
 import Filters from "./Filters";
 import SingleProduct from "./SingleProduct";
-
+import Spinner from 'react-bootstrap/Spinner';
 const Home = () => {
   const {
     state: { products },
@@ -56,9 +56,9 @@ console.log("prdsfsd",products)
     <div className="home">
       <Filters />
       <div className="productContainer">
-        {transformProducts().map((prod) => (
+        {transformProducts()?.length>0?transformProducts().map((prod) => (
           <SingleProduct prod={prod} key={prod.id} />
-        ))}
+        )):<Spinner style={{margin:'auto'}} animation="grow" />}
       </div>
     </div>
   );
