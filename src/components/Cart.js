@@ -22,33 +22,33 @@ const Cart = () => {
       <div className="productContainer">
         <ListGroup>
           {cart.map((prod) => (
-            <ListGroup.Item key={prod.id}>
+            <ListGroup.Item key={prod?.id}>
               <Row>
                 <Col md={2}>
-                  <Image src={prod.image} alt={prod.name} fluid rounded />
+                  <Image src={prod?.thumbnail} alt={prod?.thumbnail} fluid rounded />
                 </Col>
                 <Col md={2}>
-                  <span>{prod.name}</span>
+                  <span>{prod?.title}</span>
                 </Col>
-                <Col md={2}>₹ {prod.price}</Col>
+                <Col md={2}>₹ {prod?.price}</Col>
                 <Col md={2}>
-                  <Rating rating={prod.ratings} />
+                  <Rating rating={prod?.rating} />
                 </Col>
                 <Col md={2}>
                   <Form.Control
                     as="select"
-                    value={prod.qty}
+                    value={prod?.qty}
                     onChange={(e) =>
                       dispatch({
                         type: "CHANGE_CART_QTY",
                         payload: {
-                          id: prod.id,
+                          id: prod?.id,
                           qty: e.target.value,
                         },
                       })
                     }
                   >
-                    {[...Array(prod.inStock).keys()].map((x) => (
+                    {[...Array(prod?.stock).keys()].map((x) => (
                       <option key={x + 1}>{x + 1}</option>
                     ))}
                   </Form.Control>

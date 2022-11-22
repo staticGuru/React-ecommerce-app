@@ -54,15 +54,15 @@ const Header = () => {
               {cart.length > 0 ? (
                 <>
                   {cart.map((prod) => (
-                    <span className="cartitem" key={prod.id}>
+                    <span className="cartitem" key={prod?.id}>
                       <img
-                        src={prod.image}
+                        src={prod?.thumbnail}
                         className="cartItemImg"
-                        alt={prod.name}
+                        alt={prod?.thumbnail}
                       />
                       <div className="cartItemDetail">
-                        <span>{prod.name}</span>
-                        <span>₹ {prod.price.split(".")[0]}</span>
+                        <span>{prod?.title}</span>
+                        <span>₹ {prod?.price}</span>
                       </div>
                       <AiFillDelete
                         fontSize="20px"
