@@ -38,7 +38,7 @@ const Filters = () => {
     }),
   }
   const getCategorizedProducts=async(e)=>{
-    await fetch(`https://dummyjson.com/products/category/${e.label}`)
+    await fetch(e.value==-1?'https://dummyjson.com/products/':`https://dummyjson.com/products/category/${e.label}`)
    .then(res => res.json())
    .then((response)=>{
      dispatch({type:'SET_PRODUCT',payload:response.products})
