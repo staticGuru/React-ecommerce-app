@@ -90,6 +90,10 @@
   justify-content:center;
   padding-top: 0.7rem;
 }
+.categoryFilter{
+  justify-content:center;
+  
+}
 /* Media Queries */
 @media (max-width: 771px) {
   .filters {

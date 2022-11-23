@@ -26,6 +26,7 @@ const Context = ({ children }) => {
     byFastDelivery: false,
     byRating: 0,
     searchQuery: "",
+    category:{value:-1,label:'select the category'},
   });
 
   console.log(productState);

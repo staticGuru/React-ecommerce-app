@@ -1,13 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { CartState } from "../context/Context";
 import Filters from "./Filters";
 import SingleProduct from "./SingleProduct";
 import Spinner from 'react-bootstrap/Spinner';
 const Home = () => {
+  // const [sortedProducts,setSortedProducts]=useState();
   const {
     state: { products },
     dispatch,
-    productState: { sort, byStock, byFastDelivery, byRating, searchQuery },
+    productState: { sort, byStock, byFastDelivery, byRating, searchQuery,category },
   } = CartState();
   useEffect(() => {
     async function fetchData() {
@@ -20,9 +21,9 @@ const Home = () => {
     }
     fetchData();
   }, []);
-  const transformProducts = () => {
+
+  const transformProducts =() => {
     let sortedProducts = products;
-console.log("prdsfsd",products)
     if (sort) {
       sortedProducts = sortedProducts.sort((a, b) =>
         sort === "lowToHigh" ? a.price - b.price : b.price - a.price
@@ -42,6 +43,9 @@ console.log("prdsfsd",products)
         (prod) => prod.rating >= byRating
       );
     }
+    // if(category.value!=-1){
+    //   sortedProducts = getCategorizedProducts();
+    // }
 
     if (searchQuery) {
       sortedProducts = sortedProducts.filter((prod) =>
@@ -56,7 +60,7 @@ console.log("prdsfsd",products)
     <div className="home">
       <Filters />
       <div className="productContainer">
-        {transformProducts()?.length>0?transformProducts().map((prod) => (
+        {transformProducts()?.length>0?transformProducts()?.map((prod) => (
           <SingleProduct prod={prod} key={prod.id} />
         )):<Spinner style={{margin:'auto'}} animation="grow" />}
       </div>
