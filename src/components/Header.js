@@ -19,14 +19,14 @@ const Header = () => {
     dispatch,
     productDispatch,
   } = CartState();
-
+console.log("uslocationsss",useLocation().pathname.split("/")[1])
   return (
     <Navbar bg="dark" variant="dark" style={{ height: 80 }}>
       <Container>
         <Navbar.Brand>
           <Link to="/">Shopping Cart</Link>
         </Navbar.Brand>
-        {useLocation().pathname.split("/")[1] !== "cart" && (
+        {useLocation().pathname.split("/")[1] == '' && (
           <Navbar.Text className="search">
             <FormControl
               style={{ width: 500 }}

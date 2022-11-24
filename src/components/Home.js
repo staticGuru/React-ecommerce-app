@@ -22,13 +22,17 @@ const Home = () => {
   } = CartState();
   useEffect(() => {
     async function fetchData() {
+        dispatch({
+    type: "SET_PAGINATION",
+    payload: { skip: 0, total: 0 },
+  });
       await getProducts(0);
     }
     fetchData();
-  }, []);
+  }, [searchQuery]);
   async function getProducts(skip){
     await fetch(
-      `https://dummyjson.com/products?limit=9&skip=${skip}`
+      searchQuery!=''?`https://dummyjson.com/products/search?q=${searchQuery}&limit=9&skip=${skip}`:`https://dummyjson.com/products?limit=9&skip=${skip}`
     )
       .then((res) => res.json())
       .then((response) => {
@@ -44,10 +48,7 @@ const Home = () => {
       });
   }
 const handlePagination=async(skip) => {
-  // dispatch({
-  //   type: "SET_PAGINATION",
-  //   payload: { skip: skip, total: 100 },
-  // });
+
  await getProducts(skip);
 }
   const transformProducts = () => {
