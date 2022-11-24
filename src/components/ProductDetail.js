@@ -97,7 +97,6 @@ function ProductDetail() {
                 >
                   {details?.stock} items in stock.
                 </p>
-                
               </Row>
               {cart.some((p) => p.id === details.id) ? (
                 <Button

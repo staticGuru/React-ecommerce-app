@@ -28,7 +28,7 @@ useEffect(()=>{
     <Navbar bg="dark" variant="dark" style={{ height: 80 }}>
       <Container>
         <Navbar.Brand>
-          <Link to="/">Shopping Cart</Link>
+          <Link to="/" style={{fontWeight:'bold'}}>Guru Ecommerce Shop</Link>
         </Navbar.Brand>
         {useLocation().pathname.split("/")[1] == '' && (
           <Navbar.Text className="search">
