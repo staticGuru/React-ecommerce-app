@@ -5,6 +5,7 @@ import SingleProduct from "./SingleProduct";
 import Spinner from "react-bootstrap/Spinner";
 const Home = () => {
   const [total, setTotal] = useState(0);
+  const [isLoading,setIsLoading] = useState(true);
   var LIMIT = 9;
   const {
     state: { products },
@@ -32,6 +33,7 @@ const Home = () => {
     fetchData();
   }, [searchQuery]);
   async function getProducts(skip) {
+    setIsLoading(true)
     await fetch(
       searchQuery != ""
         ? `https://dummyjson.com/products/search?q=${searchQuery}&limit=9&skip=${
@@ -51,6 +53,7 @@ const Home = () => {
         });
         setTotal(Math.round(response.total / LIMIT));
       });
+      setIsLoading(false)
   }
   const handlePagination = async (skip) => {
     await getProducts(skip);
@@ -89,9 +92,9 @@ const Home = () => {
             <SingleProduct prod={prod} key={prod.id} />
           ))
         ) : (
-          <Spinner style={{ margin: "auto" }} animation="grow" />
+         isLoading? <Spinner style={{ margin: "auto" }} animation="grow" />:<h4 style={{alignSelf:'center'}}>Ooops, No products found!!!</h4>
         )}
-        {products.length >= 9 && (
+        {transformProducts()?.length > 0 && products.length >= 9 && (
           <nav aria-label="Page navigation example  justify-content-end">
             <ul className="pagination">
               {Array.from({ length: total }, (_, i) => i + 1).map(

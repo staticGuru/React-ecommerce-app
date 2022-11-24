@@ -38,6 +38,10 @@ function ProductDetail() {
         padding: 10,
         width: "100vw",
         height: "90vh",
+        flex:1,
+        justifyContent:'center',
+        alignItems: 'center',
+        display: 'flex'
       }}
     >
       {details ? (
@@ -93,7 +97,21 @@ function ProductDetail() {
                 >
                   {details?.stock} items in stock.
                 </p>
+                
+              </Row>
+              {cart.some((p) => p.id === details.id) ? (
                 <Button
+                  variant="danger"
+                  onClick={() =>
+                    dispatch({
+                      type: "REMOVE_FROM_CART",
+                      payload: details,
+                    })
+                  }
+                >
+                  Remove from Cart
+                </Button>
+              ) : <Button
                   onClick={() =>
                     dispatch({
                       type: "ADD_TO_CART",
@@ -101,14 +119,13 @@ function ProductDetail() {
                     })
                   }
                 >
-                  Buy now
-                </Button>
-              </Row>
+                  Add to Cart
+                </Button>}
             </div>
           </div>
         </div>
       ) : (
-        <div style={{margin: "auto", width: "100%", height: "100%" }}>
+        <div style={{alignSelf: "center"}}>
           <Spinner style={{ margin: "auto" }} animation="grow" />
         </div>
       )}
