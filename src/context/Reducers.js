@@ -28,7 +28,7 @@ export const productReducer = (state, action) => {
     case 'SET_PAGINATION':
       return {...state,pagination:action.payload};
     case "SORT_BY_CATEGORY":
-      return { ...state, category: action.payload };
+      return { ...state,searchQuery:"", category: action.payload };
     case "FILTER_BY_STOCK":
       return { ...state, byStock: !state.byStock };
     case "FILTER_BY_DELIVERY":
@@ -36,9 +36,9 @@ export const productReducer = (state, action) => {
     case "FILTER_BY_RATING":
       return { ...state, byRating: action.payload };
     case "FILTER_BY_SEARCH":
-      return { ...state, searchQuery: action.payload };
+      return { ...state, searchQuery: action.payload,category:{value:-1,label:'select the category'} };
     case "CLEAR_FILTERS":
-      return { byStock: false, byFastDelivery: false, byRating: 0 };
+      return { byStock: false, byFastDelivery: false, byRating: 0,searchQuery:"",pagination:{skip:0,total:0} };
     default:
       return state;
   }

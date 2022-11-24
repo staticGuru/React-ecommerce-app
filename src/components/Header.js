@@ -12,14 +12,18 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { CartState } from "../context/Context";
 import "./styles.css";
+import { useEffect } from "react";
 
 const Header = () => {
   const {
     state: { cart },
     dispatch,
     productDispatch,
+    productState:{searchQuery}
   } = CartState();
-console.log("uslocationsss",useLocation().pathname.split("/")[1])
+useEffect(()=>{
+
+},[])
   return (
     <Navbar bg="dark" variant="dark" style={{ height: 80 }}>
       <Container>
@@ -34,6 +38,7 @@ console.log("uslocationsss",useLocation().pathname.split("/")[1])
               placeholder="Search a product..."
               className="m-auto"
               aria-label="Search"
+              value={searchQuery}
               onChange={(e) => {
                 productDispatch({
                   type: "FILTER_BY_SEARCH",

@@ -4,8 +4,8 @@ import Filters from "./Filters";
 import SingleProduct from "./SingleProduct";
 import Spinner from "react-bootstrap/Spinner";
 const Home = () => {
-  const [total,setTotal]=useState(0);
-  var LIMIT=9;
+  const [total, setTotal] = useState(0);
+  var LIMIT = 9;
   const {
     state: { products },
     dispatch,
@@ -13,8 +13,6 @@ const Home = () => {
     productState: {
       sort,
       pagination,
-      byStock,
-      byFastDelivery,
       byRating,
       searchQuery,
       category,
@@ -22,35 +20,41 @@ const Home = () => {
   } = CartState();
   useEffect(() => {
     async function fetchData() {
+      if(category.value == -1 ){
         dispatch({
-    type: "SET_PAGINATION",
-    payload: { skip: 0, total: 0 },
-  });
-      await getProducts(0);
+          type: "SET_PAGINATION",
+          payload: { skip: 0, total: 0 },
+        });
+        setTimeout(async () => await getProducts(0), 1000);
+      }
+     
     }
     fetchData();
   }, [searchQuery]);
-  async function getProducts(skip){
+  async function getProducts(skip) {
     await fetch(
-      searchQuery!=''?`https://dummyjson.com/products/search?q=${searchQuery}&limit=9&skip=${skip}`:`https://dummyjson.com/products?limit=9&skip=${skip}`
+      searchQuery != ""
+        ? `https://dummyjson.com/products/search?q=${searchQuery}&limit=9&skip=${
+            skip * 9
+          }`
+        : `https://dummyjson.com/products?limit=9&skip=${skip * 9}`
     )
       .then((res) => res.json())
       .then((response) => {
         productDispatch({
           type: "SET_PAGINATION",
-          payload: { skip: response.skip, total: response.total },
+          payload: { skip: skip, total: response.total },
         });
         dispatch({
           type: "SET_PRODUCT",
           payload: response.products,
         });
-        setTotal(Math.round(response.total/LIMIT))
+        setTotal(Math.round(response.total / LIMIT));
       });
   }
-const handlePagination=async(skip) => {
-
- await getProducts(skip);
-}
+  const handlePagination = async (skip) => {
+    await getProducts(skip);
+  };
   const transformProducts = () => {
     let sortedProducts = products;
     if (sort) {
@@ -59,13 +63,6 @@ const handlePagination=async(skip) => {
       );
     }
 
-    if (!byStock) {
-      sortedProducts = sortedProducts.filter((prod) => prod.stock);
-    }
-
-    if (byFastDelivery) {
-      sortedProducts = sortedProducts.filter((prod) => prod.rating);
-    }
 
     if (byRating) {
       sortedProducts = sortedProducts.filter((prod) => prod.rating >= byRating);
@@ -74,11 +71,11 @@ const handlePagination=async(skip) => {
     //   sortedProducts = getCategorizedProducts();
     // }
 
-    if (searchQuery) {
-      sortedProducts = sortedProducts.filter((prod) =>
-        prod.title.toLowerCase().includes(searchQuery)
-      );
-    }
+    // if (searchQuery) {
+    //   sortedProducts = sortedProducts.filter((prod) =>
+    //     prod.title.toLowerCase().includes(searchQuery)
+    //   );
+    // }
 
     return sortedProducts;
   };
@@ -94,19 +91,33 @@ const handlePagination=async(skip) => {
         ) : (
           <Spinner style={{ margin: "auto" }} animation="grow" />
         )}
-        {total!=0 && <nav aria-label="Page navigation example  justify-content-end">
-          <ul className="pagination">
-            {Array.from({ length: total}, (_, i) => i + 1).map((page, index) => {
-              return (
-                <li key={index} className="page-item" onClick={(e)=>handlePagination(page)}>
-                  <a className="page-link" style={{backgroundColor:pagination.skip ==page ?"green":"transparent"}}>
-                    {page}
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-        </nav>}
+        {products.length >= 9 && (
+          <nav aria-label="Page navigation example  justify-content-end">
+            <ul className="pagination">
+              {Array.from({ length: total }, (_, i) => i + 1).map(
+                (page, index) => {
+                  return (
+                    <li
+                      key={index}
+                      className="page-item"
+                      onClick={(e) => handlePagination(index)}
+                    >
+                      <a
+                        className="page-link"
+                        style={{
+                          backgroundColor:
+                            pagination.skip == index ? "green" : "transparent",
+                        }}
+                      >
+                        {page}
+                      </a>
+                    </li>
+                  );
+                }
+              )}
+            </ul>
+          </nav>
+        )}
       </div>
     </div>
   );
