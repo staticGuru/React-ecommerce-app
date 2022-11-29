@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import React,{ Suspense, useEffect, useState } from "react";
 import { CartState } from "../context/Context";
-import Filters from "./Filters";
-import SingleProduct from "./SingleProduct";
+// import Filters from "./Filters";
 import Spinner from "react-bootstrap/Spinner";
+const Filters=React.lazy(() => import("./Filters"));
+const SingleProduct=React.lazy(() => import("./SingleProduct"));
+// import SingleProduct from "./SingleProduct";
+
 const Home = () => {
   const [total, setTotal] = useState(0);
   const [isLoading,setIsLoading] = useState(true);
@@ -85,11 +88,15 @@ const Home = () => {
 
   return (
     <div className="home">
+    <Suspense fallback={<div>Loading</div>}>
       <Filters />
+      </Suspense>
       <div className="productContainer">
         {transformProducts()?.length > 0 ? (
           transformProducts()?.map((prod) => (
+    <Suspense fallback={<div>Loading</div>}>
             <SingleProduct prod={prod} key={prod.id} />
+            </Suspense>
           ))
         ) : (
          isLoading? <Spinner style={{ margin: "auto" }} animation="grow" />:<h4 style={{alignSelf:'center'}}>Ooops, No products found!!!</h4>
