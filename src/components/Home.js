@@ -46,10 +46,10 @@ const Home = () => {
     )
       .then((res) => res.json())
       .then((response) => {
-        productDispatch({
-          type: "SET_PAGINATION",
-          payload: { skip: skip, total: response.total },
-        });
+        // productDispatch({
+        //   type: "SET_PAGINATION",
+        //   payload: { skip: skip, total: response.total },
+        // });
         dispatch({
           type: "SET_PRODUCT",
           payload: response.products,
@@ -59,6 +59,10 @@ const Home = () => {
       setIsLoading(false)
   }
   const handlePagination = async (skip) => {
+    productDispatch({
+      type: "SET_PAGINATION",
+      payload: { skip: skip, total: total },
+    });
     await getProducts(skip);
   };
   const transformProducts = () => {
@@ -91,6 +95,7 @@ const Home = () => {
     <Suspense fallback={<div>Loading</div>}>
       <Filters />
       </Suspense>
+      <div style={{width: "80%"}}>
       <div className="productContainer">
         {transformProducts()?.length > 0 ? (
           transformProducts()?.map((prod) => (
@@ -101,34 +106,38 @@ const Home = () => {
         ) : (
          isLoading? <Spinner style={{ margin: "auto" }} animation="grow" />:<h4 style={{alignSelf:'center'}}>Ooops, No products found!!!</h4>
         )}
-        {transformProducts()?.length > 0 && products.length >= 9 && (
-          <nav aria-label="Page navigation example  justify-content-end">
-            <ul className="pagination">
-              {Array.from({ length: total }, (_, i) => i + 1).map(
-                (page, index) => {
-                  return (
-                    <li
-                      key={index}
-                      className="page-item"
-                      onClick={(e) => handlePagination(index)}
-                    >
-                      <a
-                        className="page-link"
-                        style={{
-                          backgroundColor:
-                            pagination.skip == index ? "green" : "transparent",
-                        }}
-                      >
-                        {page}
-                      </a>
-                    </li>
-                  );
-                }
-              )}
-            </ul>
-          </nav>
-        )}
+       
       </div>
+      <div style={{display:"flex",justifyContent: "center"}}>
+      {transformProducts()?.length > 0 && products.length >= 9 && (
+        <nav aria-label="Page navigation example  justify-content-end">
+          <ul className="pagination">
+            {Array.from({ length: total }, (_, i) => i + 1).map(
+              (page, index) => {
+                return (
+                  <li
+                    key={index}
+                    className="page-item"
+                    onClick={(e) => handlePagination(index)}
+                  >
+                    <a
+                      className="page-link"
+                      style={{
+                        backgroundColor:
+                          pagination.skip == index ? "green" : "transparent",
+                      }}
+                    >
+                      {page}
+                    </a>
+                  </li>
+                );
+              }
+            )}
+          </ul>
+        </nav>
+      )}
+      </div>
+    </div>
     </div>
   );
 };

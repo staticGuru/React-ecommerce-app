@@ -12,7 +12,6 @@ const Context = ({ children }) => {
   });
 
   const [productState, productDispatch] = useReducer(productReducer, {
-  
     byRating: 0,
     searchQuery: "",
     pagination:{skip:0,total:0},

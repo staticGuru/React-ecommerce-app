@@ -29,7 +29,6 @@ export const productReducer = (state, action) => {
       return {...state,pagination:action.payload};
     case "SORT_BY_CATEGORY":
       return { ...state,searchQuery:"", category: action.payload };
-   
     case "FILTER_BY_RATING":
       return { ...state, byRating: action.payload };
     case "FILTER_BY_SEARCH":
